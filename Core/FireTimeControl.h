@@ -3,8 +3,9 @@
 
 class FireTimeControl
 {
-	uint32_t currentTime_ms = 10;
 	const uint32_t MAX_TIME = 9900;
+	const uint32_t MIN_TIME = 10;
+	uint32_t currentTime_ms = MIN_TIME;
 	uint32_t getDeltaForCurrentTimeIncrement()
 	{
 		return getDeltaForTimeDirectioned(currentTime_ms + 1);
@@ -33,10 +34,12 @@ public:
 	void decrementTime()
 	{
 		auto delta = getDeltaForCurrentTimeDecrement();
-		if(currentTime_ms < delta)
-			currentTime_ms = 0;
+		if(currentTime_ms <= delta)
+			currentTime_ms = MIN_TIME;
 		else
 			currentTime_ms -= delta;
+		if(currentTime_ms < MIN_TIME)
+			currentTime_ms = MIN_TIME;
 	}
 	uint32_t getCurrentTime_ms()
 	{
